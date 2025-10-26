@@ -1,0 +1,192 @@
+CNN_multi_head: 0.2550
+  model_type: CNN
+  attention_type: multi_head
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {'num_heads': 4}
+
+CNN_performer: 0.2480
+  model_type: CNN
+  attention_type: performer
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {'num_heads': 8, 'num_features': 512}
+
+CNN_local: 0.2410
+  model_type: CNN
+  attention_type: local
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {'num_heads': 4, 'window_size': 64}
+
+CNN_kimi_k2: 0.2340
+  model_type: CNN
+  attention_type: kimi_k2
+  learning_rate: 0.003
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 8}
+
+CNN_linear: 0.2300
+  model_type: CNN
+  attention_type: linear
+  learning_rate: 0.003
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 4, 'kernel_size': 32}
+
+CNN_deepseek_mla: 0.2270
+  model_type: CNN
+  attention_type: deepseek_mla
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {'num_heads': 4}
+
+CNN_linformer: 0.2260
+  model_type: CNN
+  attention_type: linformer
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {'num_heads': 4, 'k': 128, 'max_seq_len': 1024}
+
+CNN_sparse: 0.2250
+  model_type: CNN
+  attention_type: sparse
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {'num_heads': 8, 'block_size': 64}
+
+MLP_Control: 0.2230
+  model_type: MLP
+  attention_type: None
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {}
+
+CNN_kv_compression: 0.2230
+  model_type: CNN
+  attention_type: kv_compression
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 8, 'compression_ratio': 0.25}
+
+CNN_flex: 0.2220
+  model_type: CNN
+  attention_type: flex
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {}
+
+MLP_self: 0.2200
+  model_type: MLP
+  attention_type: self
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {}
+
+MLP_multi_head: 0.2180
+  model_type: MLP
+  attention_type: multi_head
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 2}
+
+MLP_linformer: 0.2180
+  model_type: MLP
+  attention_type: linformer
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 2, 'k': 64, 'max_seq_len': 512}
+
+MLP_kv_compression: 0.2160
+  model_type: MLP
+  attention_type: kv_compression
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 4, 'compression_ratio': 0.75}
+
+MLP_kimi_k2: 0.2160
+  model_type: MLP
+  attention_type: kimi_k2
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 4}
+
+CNN_self: 0.2150
+  model_type: CNN
+  attention_type: self
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {}
+
+MLP_flex: 0.2130
+  model_type: MLP
+  attention_type: flex
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {}
+
+MLP_performer: 0.2130
+  model_type: MLP
+  attention_type: performer
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 8, 'num_features': 64}
+
+MLP_deepseek_mla: 0.2120
+  model_type: MLP
+  attention_type: deepseek_mla
+  learning_rate: 0.003
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 8}
+
+MLP_linear: 0.2070
+  model_type: MLP
+  attention_type: linear
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 4, 'kernel_size': 128}
+
+MLP_local: 0.2070
+  model_type: MLP
+  attention_type: local
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 2, 'window_size': 16}
+
+MLP_sparse: 0.2060
+  model_type: MLP
+  attention_type: sparse
+  learning_rate: 0.003
+  batch_size: 512
+  hidden_size: 256
+  attention_params: {'num_heads': 2, 'block_size': 32}
+
+CNN_Control: 0.1980
+  model_type: CNN
+  attention_type: None
+  learning_rate: 0.001
+  batch_size: 512
+  hidden_size: 512
+  attention_params: {}
+
