@@ -3,7 +3,7 @@
 ## Project Overview
 
 In this project, I investigate 11 different attention mechanisms and their ability in image classification on the CIFAR-10 dataset. 
-This investigation collects metrics on efficiency, accuracy, and robustness to provide a simpe yet hollistic view of each attention mechanisms. 
+This investigation collects metrics on efficiency, accuracy, and robustness to provide a simple yet hollistic view of each attention mechanisms. 
 While these transformers are not particularly designed for the computer vision domain, nor is the data processed in a way that would help transformers, 
 this approach does offer insights and particularly an excuse for me to implement each attention mechanism and learn to do so efficiently.
 
@@ -35,7 +35,7 @@ to the attention layer. Finally, a linear layer outputs the final classification
 The training process handles model initialization, optimization, and performance tracking across all attention variants.
 
 **Key Components**:
-- **Optimizer**: AdamW optimizer with configurable learning rate (default: 0.001)
+- **Optimizer**: AdamW optimizer with configurable learning rate set to 0.001
 - **Evaluation**: Separate validation on test set every epoch
 - **Metrics Tracking**: Training loss, test loss, accuracy, and training time per epoch
 - **Notable Optimizations**: Uses `torch.channels_last` format for CNN performance, custom dataloader for speed efficiency and process stability
@@ -50,16 +50,16 @@ This project implements and compares 11 different attention mechanisms, ranging 
 | Attention Type | Complexity | Description | Key Parameters | Theoretical Strengths | Theoretical Limitations |
 |----------------|------------|-------------|----------------|---------------------|----------------------|
 | **None (Control)** | O(1) | No attention mechanism | - | Fastest, no overhead, relies on architecture's inductive bias | Cannot model long-range dependencies explicitly |
-| **Self-Attention** | O(n²) | Standard scaled dot-product attention: softmax(QK^T/√d)V | `hidden_dim` | Full global receptive field, learns all pairwise interactions | Quadratic memory and compute; doesn't scale to long sequences |
-| **Multi-Head** | O(n²) | Parallel attention heads with separate Q,K,V projections | `num_heads` | Multiple representation subspaces, richer feature learning | Still O(n²); higher parameter count and memory usage |
+| **Self-Attention** | O(n^2) | Standard scaled dot-product attention: softmax(QK^T/√d)V | `hidden_dim` | Full global receptive field, learns all pairwise interactions | Quadratic memory and compute; doesn't scale to long sequences |
+| **Multi-Head** | O(n^2) | Parallel attention heads with separate Q,K,V projections | `num_heads` | Multiple representation subspaces, richer feature learning | Still O(n²); higher parameter count and memory usage |
 | **Linear** | O(n) | Kernel-based reformulation: uses φ(Q)φ(K)^T instead of softmax | `num_heads`, `kernel_size` | Linear complexity; scales to very long sequences | Approximation may lose modeling power; sensitive to feature map choice |
 | **Performer (FAVOR+)** | O(n) | Random Fourier features to approximate softmax kernel | `num_heads`, `num_features` | Unbiased softmax approximation; provable guarantees; O(n) complexity | Requires sufficient random features; variance in approximation quality |
 | **Linformer** | O(n) | Low-rank projection of K,V: attention computed on compressed k-dim space | `num_heads`, `k`, `max_seq_len` | Reduces KV dimension; efficient for fixed-length sequences | Requires pre-specified max sequence length; projection may lose information |
 | **Sparse (BigBird)** | O(n) | Structured sparsity: local + random + global tokens | `num_heads`, `block_size` | Maintains global receptive field with sparse patterns; good for long documents | Block structure may not align with data patterns; implementation complexity |
 | **Local/Windowed** | O(n·w) | Attention restricted to fixed-size window around each position | `num_heads`, `window_size` | Very fast; natural for tasks with strong locality (images, audio) | Cannot capture dependencies beyond window; fails on tasks needing global context |
-| **KV Compression (H2O)** | O(n²)* | Evicts less important KV cache entries; keeps "heavy hitters" | `num_heads`, `compression_ratio` | Reduces memory footprint significantly; faster inference | Eviction strategy may drop important tokens; accuracy-memory tradeoff |
+| **KV Compression (H2O)** | O(n^2)* | Evicts less important KV cache entries; keeps "heavy hitters" | `num_heads`, `compression_ratio` | Reduces memory footprint significantly; faster inference | Eviction strategy may drop important tokens; accuracy-memory tradeoff |
 | **DeepSeek V3 (MLA)** | O(n) | Multi-head Latent Attention: low-rank KV compression + MoE | `num_heads`, `num_experts` | SOTA efficiency; combines compression with expert routing; scales well | Complex architecture; requires large scale to show benefits; routing overhead |
-| **Kimi K2** | O(n²)* | Multi-head attention + MoE gating for conditional computation | `num_heads`, `num_experts` | Adaptive capacity via expert selection; can specialize experts | MoE training instability; load balancing required; benefits need scale |
+| **Kimi K2** | O(n^2)* | Multi-head attention + MoE gating for conditional computation | `num_heads`, `num_experts` | Adaptive capacity via expert selection; can specialize experts | MoE training instability; load balancing required; benefits need scale |
 | **Flex Attention** | Variable | PyTorch native API for custom attention patterns and masks | Custom masks | Highly flexible; hardware-optimized; easy custom patterns | Requires PyTorch 2.0+; C++ compiler dependencies; platform-specific |
 
 **Note**: Flex Attention (PyTorch native) is also added to the work, but excluded from experiments due to C++ compiler issues on Windows.
@@ -90,7 +90,7 @@ The parameter sweep is conducted using successive halving and a subset validatio
 
 ## Experimental Results
 
-The control run on CNN achieves 70.4% accuracy while the best attention variant (DeepSeek MLA) reaches 64.1%, representing a 6.4% degradation with 2.6× slower training. 
+The control run on CNN achieves 70.4% accuracy while the best attention variant (DeepSeek MLA) reaches 64.1%, representing a 6.4% degradation with 2.6x slower training. 
 All MLP variants perform similarly (51-53%) regardless of attention mechanism, indicating attention cannot compensate for lack of spatial inductive bias.
 
 ### CNN Results (100 Epochs, CIFAR-10)
@@ -133,7 +133,7 @@ Attention mechanisms add 1.5-3.5x computational overhead while causing severe ov
 | 11 | Kimi K2 | 51.0% | 95.5% | 31s | -2.2% |
 
 All MLP transformer variants converge to nearly identical performance (51-53%) regardless of attention mechanism, demonstrating that attention cannot compensate for the lack of spatial awareness in fully connected architectures. 
-The 25-80% training time overhead from attention mechanisms provides no meaningful improvemensts for MLPs on image classification tasks, especially in generalization.
+The 25-80% training time overhead from attention mechanisms provides no meaningful improvements for MLPs on image classification tasks, especially in generalization.
 
 
 ## Summary
@@ -144,7 +144,7 @@ This codebase implements a comparison framework for transformer attention mechan
 
 1. **Standard O(n^2) Attention**: Self-attention, Multi-head (baseline full attention)
 2. **Linear O(n) Approximations**: Linear (kernel-based), Performer (random features), Linformer (low-rank projection)
-3. **Sparsity & Locality**: Sparse/BigBird (structured sparsity), Local (windowed attention)
+3. **Sparsity and Locality**: Sparse/BigBird (structured sparsity), Local (windowed attention)
 4. **Memory Optimization**: KV Compression/H2O (cache eviction)
 5. **Mixture of Experts (MoE)**: DeepSeek V3 (MLA+MoE), Kimi K2 (MHA+MoE)
 
